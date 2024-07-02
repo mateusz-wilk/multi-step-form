@@ -1,4 +1,5 @@
 export type SurveyData = {
+	uniqueId: number
 	firstName: string
 	lastName: string
 	email: string
@@ -29,7 +30,7 @@ const validateUserData = (data: SurveyData): boolean => {
 	return true
 }
 
-export const mockApi = (data: SurveyData): Promise<string> => {
+export const mockApi = (data: SurveyData): Promise<SurveyData> => {
 	return new Promise((resolve, reject) => {
 		if (validateUserData(data)) {
 			setTimeout(() => {
@@ -39,7 +40,7 @@ export const mockApi = (data: SurveyData): Promise<string> => {
 					reject('error')
 				}
 
-				resolve('success')
+				resolve(data)
 			}, 1500)
 		} else {
 			setTimeout(() => reject('error'), 1000)

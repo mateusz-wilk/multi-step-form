@@ -1,9 +1,11 @@
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { Button } from '../components/Button'
 
 export default function Survey() {
 	const navigate = useNavigate()
 	const nextStep = () => navigate('/survey/step/1')
+
+	return <Navigate to='/survey/step/1' replace />
 
 	return (
 		<div className='p-5 flex flex-col items-center gap-5'>

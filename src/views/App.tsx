@@ -2,11 +2,23 @@ import { useNavigate } from 'react-router-dom'
 import Task from '../components/Task'
 import { Button } from '../components/Button'
 import { Separator } from '../components/Separator'
-import { draftExample, surveyExample } from '../examples'
+import useStore from '../stores/store'
+import { useEffect, useState } from 'react'
+import { SurveyData } from '../api/mockApi'
+import DraftSection from '../components/DraftSection'
+import SurveysSection from '../components/SurveysSection'
 
 export default function App() {
 	const navigate = useNavigate()
-	const openSurvey = () => navigate('/survey')
+	const { surveys, removeLastSurvey } = useStore()
+	const [savedFormData, setSavedFormData] = useState<SurveyData | null>(null)
+
+	useEffect(() => {
+		const formData = JSON.parse(localStorage.getItem('formData') || '{}')
+		if (Object.keys(formData).length > 0) {
+			setSavedFormData(formData)
+		}
+	}, [])
 
 	return (
 		<>
@@ -20,36 +32,24 @@ export default function App() {
 			<div className='flex-1 overflow-auto py-7 px-5 gap-5 flex flex-col'>
 				<div className='flex flex-col gap-1'>
 					<div className='text-foreground text-xl'>Autor:</div>
-					<div className='text-pink-intense text-lg'>Imię Nazwisko</div>
+					<div className='text-pink-intense text-lg'>Mateusz Wilk</div>
 				</div>
 
 				<Separator />
 
 				<div className='text-foreground text-xl'>Formularz:</div>
-				<Button onClick={openSurvey}>Wypełnij ankietę</Button>
-				<Button variant={'secondary'}>Usuń ostatnią</Button>
+				<Button onClick={() => navigate(`/survey/step/1`)}>Wypełnij ankietę</Button>
+				<Button variant={'secondary'} disabled={surveys.length === 0} onClick={removeLastSurvey}>
+					Usuń ostatnią
+				</Button>
 
 				<Separator />
 
-				<div className='flex flex-col gap-0.5'>
-					<div className='text-foreground text-xl'>Wersja robocza:</div>
-					<div className='text-grey-500 text-sm font-light'>Local storage</div>
-				</div>
-
-				<div className='bg-white p-2.5 text-grey-600 text-sm tracking-normal font-medium rounded-[10px] font-mono'>
-					<pre>{draftExample}</pre>
-				</div>
+				<DraftSection savedFormData={savedFormData} />
 
 				<Separator />
 
-				<div className='flex flex-col gap-0.5'>
-					<div className='text-foreground text-xl'>Ukończone ankiety:</div>
-					<div className='text-grey-500 text-sm font-light'>Global state</div>
-				</div>
-
-				<div className='bg-white p-2.5 text-grey-600 text-sm tracking-normal font-medium rounded-[10px] font-mono'>
-					<pre>{surveyExample}</pre>
-				</div>
+				<SurveysSection surveys={surveys} />
 
 				<Separator />
 

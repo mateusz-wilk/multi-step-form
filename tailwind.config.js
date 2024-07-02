@@ -62,6 +62,12 @@ export default {
 				'destructive': {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))',
+					border: 'hsl(var(--destructive-border))',
+				},
+				'success': {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))',
+					border: 'hsl(var(--success-border))',
 				},
 				'muted': {
 					DEFAULT: 'hsl(var(--muted))',
