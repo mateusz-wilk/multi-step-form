@@ -1,24 +1,25 @@
 import { useEffect } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Step2Data, validationStep2Schema } from '../../../schemas/schemas'
+import { TrainingData, validationTrainingSchema } from '../../../validationSchema/validationSchema'
 
-export const useStep2Form = () => {
+export const useTrainingForm = () => {
 	const {
 		register,
 		handleSubmit,
 		setValue,
 		control,
 		formState: { errors },
-	} = useForm<Step2Data>({
-		resolver: zodResolver(validationStep2Schema),
+	} = useForm<TrainingData>({
+		resolver: zodResolver(validationTrainingSchema),
 	})
 
 	const formData = useWatch({ control })
 
 	useEffect(() => {
 		const savedData = JSON.parse(localStorage.getItem('formData') || '{}')
-		setValue('dietExp', savedData.dietExp || '')
+		setValue('priorityGoals', savedData.priorityGoals || [])
+		setValue('workoutsPlace', savedData.workoutsPlace || '')
 	}, [setValue])
 
 	useEffect(() => {
@@ -28,5 +29,12 @@ export const useStep2Form = () => {
 		)
 	}, [formData])
 
-	return { register, handleSubmit, errors, formData }
+	return {
+		register,
+		handleSubmit,
+		setValue,
+		control,
+		formData,
+		errors,
+	}
 }

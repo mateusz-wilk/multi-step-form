@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { useStep1Form } from '../hooks/useStep1Form'
-import { Step1Data } from '../../../schemas/schemas'
+import { useDetailsForm } from '../hooks/useDetailsForm'
+import { DetailsData } from '../../../validationSchema/validationSchema'
 import FormField from './FormField'
 import { Button } from '../../../components/Button'
 
-interface Step1FormProps {
+interface DetailsFormProps {
 	nextStep: () => void
 }
 
-const Step1Form = ({ nextStep }: Step1FormProps) => {
-	const { register, handleSubmit, errors } = useStep1Form()
+const DetailsForm = ({ nextStep }: DetailsFormProps) => {
+	const { register, handleSubmit, errors } = useDetailsForm()
 
-	const onSubmit: SubmitHandler<Step1Data> = (data) => {
+	const onSubmit: SubmitHandler<DetailsData> = (data) => {
 		const savedData = JSON.parse(localStorage.getItem('formData') || '{}')
 		localStorage.setItem('formData', JSON.stringify({ ...savedData, ...data }))
 		nextStep()
@@ -33,21 +33,9 @@ const Step1Form = ({ nextStep }: Step1FormProps) => {
 		>
 			<div className='flex flex-col gap-[20px]'>
 				<h3 className='text-grey-900 text-2xl'>Podstawowe informacje:</h3>
-				<FormField
-					label='Imię'
-					register={register('firstName')}
-					errorMessage={errors.firstName ? errors.firstName.message : undefined}
-				/>
-				<FormField
-					label='Nazwisko'
-					register={register('lastName')}
-					errorMessage={errors.lastName ? errors.lastName.message : undefined}
-				/>
-				<FormField
-					label='E-mail'
-					register={register('email')}
-					errorMessage={errors.email ? errors.email.message : undefined}
-				/>
+				<FormField label='Imię' register={register('firstName')} fieldError={errors.firstName} />
+				<FormField label='Nazwisko' register={register('lastName')} fieldError={errors.lastName} />
+				<FormField label='E-mail' register={register('email')} fieldError={errors.email} />
 			</div>
 
 			<Button type='submit'>
@@ -71,4 +59,4 @@ const Step1Form = ({ nextStep }: Step1FormProps) => {
 	)
 }
 
-export default Step1Form
+export default DetailsForm

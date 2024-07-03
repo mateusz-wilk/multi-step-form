@@ -1,25 +1,30 @@
 import { useEffect } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Step3Data, validationStep3Schema } from '../../../schemas/schemas'
+import { DetailsData, validationDetailsSchema } from '../../../validationSchema/validationSchema'
 
-export const useStep3Form = () => {
+export const useDetailsForm = () => {
 	const {
 		register,
 		handleSubmit,
 		setValue,
 		control,
 		formState: { errors },
-	} = useForm<Step3Data>({
-		resolver: zodResolver(validationStep3Schema),
+	} = useForm<DetailsData>({
+		resolver: zodResolver(validationDetailsSchema),
 	})
 
 	const formData = useWatch({ control })
 
 	useEffect(() => {
 		const savedData = JSON.parse(localStorage.getItem('formData') || '{}')
-		setValue('priorityGoals', savedData.priorityGoals || [])
-		setValue('workoutsPlace', savedData.workoutsPlace || '')
+		if (!savedData.uniqueId) {
+			savedData.uniqueId = new Date().valueOf()
+			localStorage.setItem('formData', JSON.stringify(savedData))
+		}
+		setValue('firstName', savedData.firstName || '')
+		setValue('lastName', savedData.lastName || '')
+		setValue('email', savedData.email || '')
 	}, [setValue])
 
 	useEffect(() => {
@@ -29,12 +34,5 @@ export const useStep3Form = () => {
 		)
 	}, [formData])
 
-	return {
-		register,
-		handleSubmit,
-		setValue,
-		control,
-		formData,
-		errors,
-	}
+	return { register, handleSubmit, errors }
 }

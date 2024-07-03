@@ -1,19 +1,33 @@
 import { SubmitHandler } from 'react-hook-form'
 import { Button } from '../../../components/Button'
-import { useStep3Form } from '../hooks/useStep3Form'
-import { Step3Data } from '../../../schemas/schemas'
+import { useTrainingForm } from '../hooks/useTrainingForm'
+import { TrainingData } from '../../../validationSchema/validationSchema'
 import { SurveyData } from '../../../api/mockApi'
 import SelectableField from './SelectableField'
 
-interface Step3FormProps {
+const priorityGoalsFields = [
+	{ value: 'buttocks', label: 'Pośladki' },
+	{ value: 'thighs', label: 'Uda' },
+	{ value: 'belly', label: 'Brzuch' },
+	{ value: 'calves', label: 'Łydki' },
+	{ value: 'arms', label: 'Ramiona' },
+]
+
+const workoutPlacesFields = [
+	{ value: 'home', label: 'W domu' },
+	{ value: 'gym', label: 'Na siłowni' },
+	{ value: 'half', label: 'Pół na pół' },
+]
+
+interface TrainingFormProps {
 	handleSubmit: (data: SurveyData) => void
 	isSubmitting: boolean
 }
 
-const Step3Form = ({ handleSubmit, isSubmitting }: Step3FormProps) => {
-	const { register, handleSubmit: formSubmit, formData, errors } = useStep3Form()
+const TrainingForm = ({ handleSubmit, isSubmitting }: TrainingFormProps) => {
+	const { register, handleSubmit: formSubmit, formData, errors } = useTrainingForm()
 
-	const onSubmit: SubmitHandler<Step3Data> = (data) => {
+	const onSubmit: SubmitHandler<TrainingData> = (data) => {
 		const savedData = JSON.parse(localStorage.getItem('formData') || '{}')
 		const finalData = { ...savedData, ...data }
 		localStorage.setItem('formData', JSON.stringify(finalData))
@@ -29,46 +43,17 @@ const Step3Form = ({ handleSubmit, isSubmitting }: Step3FormProps) => {
 					<p className='text-grey-700 text-sm mb-[16px] px-5'>Wybierz 2 lub więcej</p>
 					<div className=' mb-[20px]'>
 						<div className='flex flex-row items-center h-[44px] gap-[10px] px-5 overflow-x-auto no-scrollbar'>
-							<SelectableField
-								type='checkbox'
-								value='buttocks'
-								selected={formData.priorityGoals?.includes('buttocks')}
-								label='Pośladki'
-								register={register('priorityGoals')}
-								isSubmitting={isSubmitting}
-							/>
-							<SelectableField
-								type='checkbox'
-								value='thighs'
-								selected={formData.priorityGoals?.includes('thighs')}
-								label='Uda'
-								register={register('priorityGoals')}
-								isSubmitting={isSubmitting}
-							/>
-							<SelectableField
-								type='checkbox'
-								value='belly'
-								selected={formData.priorityGoals?.includes('belly')}
-								label='Brzuch'
-								register={register('priorityGoals')}
-								isSubmitting={isSubmitting}
-							/>
-							<SelectableField
-								type='checkbox'
-								value='calves'
-								selected={formData.priorityGoals?.includes('calves')}
-								label='Łydki'
-								register={register('priorityGoals')}
-								isSubmitting={isSubmitting}
-							/>
-							<SelectableField
-								type='checkbox'
-								value='arms'
-								selected={formData.priorityGoals?.includes('arms')}
-								label='Ramiona'
-								register={register('priorityGoals')}
-								isSubmitting={isSubmitting}
-							/>
+							{priorityGoalsFields.map((field) => (
+								<SelectableField
+									key={field.value}
+									type='checkbox'
+									value={field.value}
+									selected={formData.priorityGoals?.includes(field.value)}
+									label={field.label}
+									register={register('priorityGoals')}
+									isSubmitting={isSubmitting}
+								/>
+							))}
 						</div>
 						{errors.priorityGoals && (
 							<p className='text-sm text-destructive-foreground mt-[10px] px-5'>{errors.priorityGoals.message}</p>
@@ -80,30 +65,17 @@ const Step3Form = ({ handleSubmit, isSubmitting }: Step3FormProps) => {
 					<h5 className='text-grey-700 text-base mb-[16px]  px-5'>Gdzie chciałabyś trenować?</h5>
 					<div>
 						<div className='flex flex-row items-center h-[44px] gap-[10px] px-5 overflow-x-auto no-scrollbar'>
-							<SelectableField
-								type='radio'
-								value='home'
-								selected={formData.workoutsPlace === 'home'}
-								label='W domu'
-								register={register('workoutsPlace')}
-								isSubmitting={isSubmitting}
-							/>
-							<SelectableField
-								type='radio'
-								value='gym'
-								selected={formData.workoutsPlace === 'gym'}
-								label='Na siłowni'
-								register={register('workoutsPlace')}
-								isSubmitting={isSubmitting}
-							/>
-							<SelectableField
-								type='radio'
-								value='half'
-								selected={formData.workoutsPlace === 'half'}
-								label='Pół na pół'
-								register={register('workoutsPlace')}
-								isSubmitting={isSubmitting}
-							/>
+							{workoutPlacesFields.map((field) => (
+								<SelectableField
+									key={field.value}
+									type='radio'
+									value={field.value}
+									selected={formData.workoutsPlace === field.value}
+									label={field.label}
+									register={register('workoutsPlace')}
+									isSubmitting={isSubmitting}
+								/>
+							))}
 						</div>
 						{errors.workoutsPlace && (
 							<p className='text-sm text-destructive-foreground mt-[10px] px-5'>{errors.workoutsPlace.message}</p>
@@ -140,4 +112,4 @@ const Step3Form = ({ handleSubmit, isSubmitting }: Step3FormProps) => {
 	)
 }
 
-export default Step3Form
+export default TrainingForm

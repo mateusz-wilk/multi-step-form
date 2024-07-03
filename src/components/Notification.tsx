@@ -1,10 +1,10 @@
 import { Alert, AlertTitle } from './ui/alert'
 
-type AlertComponentProps = {
+type NotificationProps = {
 	alertType: 'success' | 'error'
 }
 
-const AlertComponent = ({ alertType }: AlertComponentProps) => {
+const Notification = ({ alertType }: NotificationProps) => {
 	return (
 		<Alert
 			className={`z-20 rounded-xl h-[54px] mt-[-64px] mx-[15px] flex items-center w-auto ${
@@ -54,4 +54,4 @@ const AlertComponent = ({ alertType }: AlertComponentProps) => {
 	)
 }
 
-export default AlertComponent
+export default Notification

@@ -1,17 +1,17 @@
 import { SubmitHandler } from 'react-hook-form'
 import { Button } from '../../../components/Button'
-import { useStep2Form } from '../hooks/useStep2Form'
-import { Step2Data } from '../../../schemas/schemas'
+import { useDietForm } from '../hooks/useDietForm'
+import { DietData } from '../../../validationSchema/validationSchema'
 import FormField from './FormField'
 
-interface Step2FormProps {
+interface DietFormProps {
 	nextStep: () => void
 }
 
-const Step2Form = ({ nextStep }: Step2FormProps) => {
-	const { register, handleSubmit, errors, formData } = useStep2Form()
+const DietForm = ({ nextStep }: DietFormProps) => {
+	const { register, handleSubmit, errors, formData } = useDietForm()
 
-	const onSubmit: SubmitHandler<Step2Data> = (data) => {
+	const onSubmit: SubmitHandler<DietData> = (data) => {
 		const savedData = JSON.parse(localStorage.getItem('formData') || '{}')
 		localStorage.setItem('formData', JSON.stringify({ ...savedData, ...data }))
 		nextStep()
@@ -78,4 +78,4 @@ const Step2Form = ({ nextStep }: Step2FormProps) => {
 	)
 }
 
-export default Step2Form
+export default DietForm
