@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import Navigation from '../components/Navigation'
-import StepsBar from '../components/StepsBar'
 import Details from '../features/Details/Details'
 import Diet from '../features/Diet/Diet'
 import Training from '../features/Training/Training'
@@ -8,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import useSurveyNavigation from '../hooks/useSurveyNavigation'
 import Notification from '../components/Notification'
 import { useSubmitSurvey } from '../hooks/useSubmitSurvey'
+import StepsBar from '../features/StepsBar/StepsBar'
 
 export default function Step() {
 	const { stepId = '1' } = useParams<{ stepId: string }>()
