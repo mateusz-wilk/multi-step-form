@@ -1,11 +1,22 @@
+export type FieldOption<T> = {
+	value: T
+	label: string
+}
+
+export type DietExp = 'inexperienced' | 'beginner' | 'intermediate' | 'advanced'
+
+export type PriorityGoals = 'buttocks' | 'thighs' | 'belly' | 'calves' | 'arms'
+
+export type WorkoutsPlace = 'home' | 'gym' | 'half'
+
 export type SurveyData = {
 	uniqueId: number
 	firstName: string
 	lastName: string
 	email: string
-	dietExp: string
-	priorityGoals: string[]
-	workoutsPlace: string
+	dietExp: DietExp
+	priorityGoals: PriorityGoals[]
+	workoutsPlace: WorkoutsPlace
 }
 
 const validateUserData = (data: SurveyData): boolean => {

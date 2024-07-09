@@ -3,7 +3,14 @@ import { Button } from '../../../components/Button'
 import { useDietForm } from '../hooks/useDietForm'
 import { DietData } from '../../../validationSchema/validationSchema'
 import FormField from './FormField'
+import { DietExp, FieldOption } from '../../../api/mockApi'
 
+const dietExpFields: FieldOption<DietExp>[] = [
+	{ value: 'inexperienced', label: 'Nigdy nie próbowałam' },
+	{ value: 'beginner', label: 'Dopiero zaczynam' },
+	{ value: 'intermediate', label: 'Liczę już jakiś czas' },
+	{ value: 'advanced', label: 'Jestem doświadczona' },
+]
 interface DietFormProps {
 	nextStep: () => void
 }
@@ -29,30 +36,15 @@ const DietForm = ({ nextStep }: DietFormProps) => {
 				<p className='text-grey-700 text-sm text-center mt-[15px]'>Wybierz jedną z opcji</p>
 
 				<div className='flex flex-col gap-[10px] py-[10px]'>
-					<FormField
-						label='Nigdy nie próbowałam'
-						value='inexperienced'
-						isSelected={formData.dietExp === 'inexperienced'}
-						register={register('dietExp')}
-					/>
-					<FormField
-						label='Dopiero zaczynam'
-						value='beginner'
-						isSelected={formData.dietExp === 'beginner'}
-						register={register('dietExp')}
-					/>
-					<FormField
-						label='Liczę już jakiś czas'
-						value='intermediate'
-						isSelected={formData.dietExp === 'intermediate'}
-						register={register('dietExp')}
-					/>
-					<FormField
-						label='Jestem doświadczona'
-						value='advanced'
-						isSelected={formData.dietExp === 'advanced'}
-						register={register('dietExp')}
-					/>
+					{dietExpFields.map((field) => (
+						<FormField
+							key={field.value}
+							value={field.value}
+							label={field.label}
+							isSelected={formData.dietExp === field.value}
+							register={register('dietExp')}
+						/>
+					))}
 					{errors.dietExp && <p className='text-sm text-destructive-foreground'>{errors.dietExp.message}</p>}
 				</div>
 			</div>

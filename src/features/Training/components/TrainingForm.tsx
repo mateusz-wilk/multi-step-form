@@ -2,10 +2,10 @@ import { SubmitHandler } from 'react-hook-form'
 import { Button } from '../../../components/Button'
 import { useTrainingForm } from '../hooks/useTrainingForm'
 import { TrainingData } from '../../../validationSchema/validationSchema'
-import { SurveyData } from '../../../api/mockApi'
+import { FieldOption, PriorityGoals, SurveyData, WorkoutsPlace } from '../../../api/mockApi'
 import SelectableField from './SelectableField'
 
-const priorityGoalsFields = [
+const priorityGoalsFields: FieldOption<PriorityGoals>[] = [
 	{ value: 'buttocks', label: 'Pośladki' },
 	{ value: 'thighs', label: 'Uda' },
 	{ value: 'belly', label: 'Brzuch' },
@@ -13,7 +13,7 @@ const priorityGoalsFields = [
 	{ value: 'arms', label: 'Ramiona' },
 ]
 
-const workoutPlacesFields = [
+const workoutPlacesFields: FieldOption<WorkoutsPlace>[] = [
 	{ value: 'home', label: 'W domu' },
 	{ value: 'gym', label: 'Na siłowni' },
 	{ value: 'half', label: 'Pół na pół' },

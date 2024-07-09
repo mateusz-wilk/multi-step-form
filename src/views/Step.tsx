@@ -25,7 +25,7 @@ export default function Step() {
 	return (
 		<>
 			<Navigation stepNumber={stepNumber} />
-			<div className='realative flex-1 overflow-auto pt-[10px] flex flex-col gap-[10px]'>
+			<div className='relative flex-1 overflow-auto pt-[10px] flex flex-col gap-[10px]'>
 				<StepsBar stepNumber={stepNumber} />
 
 				{alertType && <Notification alertType={alertType} />}
